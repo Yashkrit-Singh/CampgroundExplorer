@@ -1,0 +1,60 @@
+#map {
+    width: 100%;
+    height: 300px;
+}
+
+#cluster-map{
+    width: 100%;
+    height: 500px;
+}
+
+
+
+    /* Style for the styled-select container */
+    .styled-select {
+        position: relative;
+        display: inline-block;
+        width: 200px; /* Adjust width as needed */
+        height: auto;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        overflow: hidden; /* Ensure the dropdown arrow is contained within */
+    }
+
+    /* Style for the custom-select dropdown */
+    .custom-select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+        padding: 8px 30px 8px 10px; /* Adjust padding as needed */
+        font-size: 14px; /* Adjust font size as needed */
+        border: none;
+        width: 100%;
+        background-color: transparent;
+    }
+
+    /* Style for the custom-select dropdown arrow */
+    .styled-select::after {
+        content: '\25BC'; /* Unicode character for down arrow */
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* Style for options */
+    .custom-select option {
+        background-color: #fff;
+        color: #333;
+    }
+
+    /* Hover and focus styles */
+    .custom-select:hover,
+    .custom-select:focus {
+        outline: none;
+        background-color: #f8f9fa;
+    }
+

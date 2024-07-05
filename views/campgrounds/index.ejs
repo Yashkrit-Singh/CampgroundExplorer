@@ -1,0 +1,97 @@
+<% layout('/layouts/boilerplate') %>
+
+    <div id="cluster-map"></div>
+
+    <h1 style="text-align: center;">All Campgrounds</h1>
+    <nav class="navbar navbar-light bg-light container" style="width: 100%;">
+        <form class="form-inline d-flex flex-row mx-auto align-items-center justify-content-between" method="get" action="/campgrounds">
+            <input class="form-control mr-sm-2 mx-3" type="search" placeholder="Search Campground" aria-label="Search" name="campground" style="width: 50%;" value="<%= campground %>">
+            <div class="mr-2 styled-select">
+                <select id="state" class="custom-select" name="state">
+                    <option <%= (state == 'All State') ? 'selected' : '' %> value="All State">All State</option>
+                    <option <%= (state == 'Andhra Pradesh') ? 'selected' : '' %> value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option <%= (state == 'Arunachal Pradesh') ? 'selected' : '' %> value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option <%= (state == 'Assam') ? 'selected' : '' %> value="Assam">Assam</option>
+                    <option <%= (state == 'Bihar') ? 'selected' : '' %> value="Bihar">Bihar</option>
+                    <option <%= (state == 'Chhattisgarh') ? 'selected' : '' %> value="Chhattisgarh">Chhattisgarh</option>
+                    <option <%= (state == 'Goa') ? 'selected' : '' %> value="Goa">Goa</option>
+                    <option <%= (state == 'Gujarat') ? 'selected' : '' %> value="Gujarat">Gujarat</option>
+                    <option <%= (state == 'Haryana') ? 'selected' : '' %> value="Haryana">Haryana</option>
+                    <option <%= (state == 'Himachal Pradesh') ? 'selected' : '' %> value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option <%= (state == 'Jharkhand') ? 'selected' : '' %> value="Jharkhand">Jharkhand</option>
+                    <option <%= (state == 'Karnataka') ? 'selected' : '' %> value="Karnataka">Karnataka</option>
+                    <option <%= (state == 'Kerala') ? 'selected' : '' %> value="Kerala">Kerala</option>
+                    <option <%= (state == 'Madhya Pradesh') ? 'selected' : '' %> value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option <%= (state == 'Maharashtra') ? 'selected' : '' %> value="Maharashtra">Maharashtra</option>
+                    <option <%= (state == 'Manipur') ? 'selected' : '' %> value="Manipur">Manipur</option>
+                    <option <%= (state == 'Meghalaya') ? 'selected' : '' %> value="Meghalaya">Meghalaya</option>
+                    <option <%= (state == 'Mizoram') ? 'selected' : '' %> value="Mizoram">Mizoram</option>
+                    <option <%= (state == 'Nagaland') ? 'selected' : '' %> value="Nagaland">Nagaland</option>
+                    <option <%= (state == 'Odisha') ? 'selected' : '' %> value="Odisha">Odisha</option>
+                    <option <%= (state == 'Punjab') ? 'selected' : '' %> value="Punjab">Punjab</option>
+                    <option <%= (state == 'Rajasthan') ? 'selected' : '' %> value="Rajasthan">Rajasthan</option>
+                    <option <%= (state == 'Sikkim') ? 'selected' : '' %> value="Sikkim">Sikkim</option>
+                    <option <%= (state == 'Tamil Nadu') ? 'selected' : '' %> value="Tamil Nadu">Tamil Nadu</option>
+                    <option <%= (state == 'Telangana') ? 'selected' : '' %> value="Telangana">Telangana</option>
+                    <option <%= (state == 'Tripura') ? 'selected' : '' %> value="Tripura">Tripura</option>
+                    <option <%= (state == 'Uttar Pradesh') ? 'selected' : '' %> value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option <%= (state == 'Uttarakhand') ? 'selected' : '' %> value="Uttarakhand">Uttarakhand</option>
+                    <option <%= (state == 'West Bengal') ? 'selected' : '' %> value="West Bengal">West Bengal</option>
+                </select>
+            </div>
+            <button class="btn btn-outline-success my-2 my-sm-0 mx-1" type="submit">Search</button>
+        </form>
+        <form class="form-inline d-flex flex-row align-items-center" method="get" action="/campgrounds">
+            <input class="form-control mr-sm-2 mx-3" type="number" value="<%= currentPage %>" placeholder="page number" aria-label="Number input" name="page">
+            <div class="styled-select">
+                <select name="limit" class="custom-select">
+                    <option value="10" <%= limit == 10 ? 'selected' : '' %>>10/page</option>
+                    <option value="50" <%= limit == 50 ? 'selected' : '' %>>50/page</option>
+                    <option value="100" <%= limit == 100 ? 'selected' : '' %>>100/page</option>
+                </select>
+            </div>
+            <input type="hidden" name="campground" value="<%= campground %>">
+            <input type="hidden" name="state" value="<%= state %>">
+            <button class="btn btn-outline-success my-2 my-sm-0 mx-1" type="submit">Submit</button>
+        </form>
+    </nav>
+    <ul>
+        <% for (let campground of campgrounds) { %>
+            <div class="card my-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <%if(campground.images.length) {%>
+                            <img crossorigin="anonymous" class="img-fluid" alt="" src="<%=campground.images[0].cardImage%>">
+                        <% }else {%>
+                            <img crossorigin="anonymous" class="img-fluid" alt=""
+                                src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png">
+                        <% } %>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= campground.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= campground.description %>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <%= campground.location %>
+                                </small>
+                            </p>
+                            <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">View <%=
+                                    campground.title %></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+    </ul>
+
+    <script>
+        const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+        const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}
+    </script>
+
+    <script src="/javascripts/clusterMap.js"></script>
