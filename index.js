@@ -50,7 +50,56 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig));
 app.use(flash());
-app.use(helmet({crossOriginEmbedderPolicy: true}));
+app.use(helmet({crossOriginEmbedderPolicy : true}));
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://kit.fontawesome.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://cdn.maptiler.com/",
+];
+const styleSrcUrls = [
+    "https://kit-free.fontawesome.com/",
+    "https://stackpath.bootstrapcdn.com/",
+    "https://fonts.googleapis.com/",
+    "https://use.fontawesome.com/",
+    "https://cdn.maptiler.com/",
+    "https://cdn.jsdelivr.net", // Bootstrap CSS
+];
+const connectSrcUrls = [
+    "https://api.maptiler.com/",
+];
+const fontSrcUrls = [
+    "https://fonts.googleapis.com/",
+    "https://fonts.gstatic.com/",
+];
+const imgSrcUrls = [
+    "https://res.cloudinary.com/dhlrmalxt/", // Your Cloudinary account
+    "https://images.unsplash.com/",
+    "https://api.maptiler.com/",
+    // Add any other image sources you need here
+];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            scriptSrcElem: ["'self'", "'unsafe-inline'", ...scriptSrcUrls], // Allow inline scripts
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            styleSrcElem: ["'self'", "'unsafe-inline'", ...styleSrcUrls], // Allow inline styles
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: ["'self'", "blob:", "data:", "*", ...imgSrcUrls], // Allow all images temporarily
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());

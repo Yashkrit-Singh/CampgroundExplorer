@@ -42,7 +42,7 @@
             <button class="btn btn-outline-success my-2 my-sm-0 mx-1" type="submit">Search</button>
         </form>
         <form class="form-inline d-flex flex-row align-items-center" method="get" action="/campgrounds">
-            <input class="form-control mr-sm-2 mx-3" type="number" value="<%= currentPage %>" placeholder="page number" aria-label="Number input" name="page">
+            <input class="form-control mr-sm-2 mx-3" type="number" value="<%= currentPage %>" placeholder="page number" aria-label="Number input" name="page" style="width: 25%;">
             <div class="styled-select">
                 <select name="limit" class="custom-select">
                     <option value="10" <%= limit == 10 ? 'selected' : '' %>>10/page</option>
