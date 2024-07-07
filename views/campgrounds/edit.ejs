@@ -1,8 +1,8 @@
 <% layout('/layouts/boilerplate') %>
 <div class="row">
-    <h1 class="text-center">New Campground</h1>
+    <h1 class="text-center">Edit Campground</h1>
     <div class="col-md-6 offset-md-3">
-        <form action="/campgrounds/<%= findCampground._id %>?_method=PUT" method="post" novalidate
+        <form id="editCampgroundForm" action="/campgrounds/<%= findCampground._id %>?_method=PUT" method="post" novalidate
             class="needs-validation" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
@@ -15,7 +15,7 @@
                     value="<%= findCampground.location %>">
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Add an Image</label>
+                <label for="image" class="form-label">Add an Image (File Limit: 14MB)</label>
                 <input class="form-control" type="file" id="image" name="image" multiple>
             </div>
             <div class="mb-3">
@@ -42,9 +42,24 @@
                 <% }) %>
             </div>
             <div class="mb-3">
-                <button class="btn btn-success">Update</button>
+                <button type="submit" class="btn btn-success">Update</button>
             </div>
         </form>
         <a href="/campgrounds/<%= findCampground._id %>">Back to Campground</a>
     </div>
 </div>
+
+<!-- Loader HTML -->
+<div id="loader" class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<!-- JavaScript to show/hide loader -->
+<script>
+    const form = document.getElementById('editCampgroundForm');
+
+    form.addEventListener('submit', function() {
+        const loader = document.getElementById('loader');
+        loader.style.display = 'flex'; // Show loader when form is submitted
+    });
+</script>

@@ -21,7 +21,10 @@ const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 
-mongoose.connect('mongodb://127.0.0.1:27017/YelpCamp_Campground')
+const MongoStore = require('connect-mongo');
+
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/YelpCamp_Campground';
+mongoose.connect(dbUrl)
     .then(() => {
         console.log("Connection Open");
     }).catch((e) => {
@@ -36,7 +39,21 @@ app.engine('ejs', ejsMate);
 app.use(mongoSanitize());     // does not let special characters of mongo to be written on search query on google as attackers might steel data not allowed for them to see (mongo injection)
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on("error", function(e) {
+    console.log("SESSION STORE ERROR", e);
+})
+
 const sessionConfig = {
+    store,
     name: "session",
     secret : "thisshouldbeabettersecret!",
     resave : false,
@@ -50,7 +67,7 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig));
 app.use(flash());
-app.use(helmet({crossOriginEmbedderPolicy : true}));
+app.use(helmet({crossOriginEmbedderPolicy : false}));
 
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",

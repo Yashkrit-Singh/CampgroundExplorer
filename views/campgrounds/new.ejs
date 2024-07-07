@@ -2,7 +2,7 @@
 <div class="row">
     <h1 class="text-center">New Campground</h1>
     <div class="col-md-6 offset-md-3">
-        <form action="/campgrounds" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+        <form id="newCampgroundForm" action="/campgrounds" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
                 <input class="form-control" type="text" id="title" name="campground[title]" required>
@@ -12,23 +12,38 @@
                 <input class="form-control" type="text" id="location" name="campground[location]" required>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Add a Image</label>
+                <label for="image" class="form-label">Add a Image (File Limit: 14MB)</label>
                 <input class="form-control" type="file" id="image" name="image" required multiple>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Price</label>
                 <div class="input-group">
-                    <span class="input-group-text" id="price-labeel">$</span>
-                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-labeel"  name="campground[price]" required>
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="campground[price]" required>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="campground[description]" required></textarea>
+                <textarea class="form-control" id="description" name="campground[description]" required></textarea>
             </div>
             <div class="mb-3">
-                <button class="btn btn-success">submit</button>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </form>
     </div>
 </div>
+
+<!-- Loader HTML -->
+<div id="loader" class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<!-- JavaScript to show/hide loader -->
+<script>
+    const form = document.getElementById('newCampgroundForm');
+
+    form.addEventListener('submit', function() {
+        const loader = document.getElementById('loader');
+        loader.style.display = 'flex'; // Show loader when form is submitted
+    });
+</script>

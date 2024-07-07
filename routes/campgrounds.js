@@ -10,7 +10,10 @@ const campground = require('../controllers/campgrounds');
 const multer = require('multer');
 const { storage } = require('../cloudinary/index');
 
-const upload = multer({storage : storage});
+const upload = multer({
+    storage : storage,
+    limits: { fileSize: 14 * 1024 * 1024 },
+});
 
 router.route('/')        // group all the request routes together with path '/'
     .get(catchAsync(campground.index))

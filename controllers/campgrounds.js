@@ -1,6 +1,9 @@
 const Campground = require('../models/campgrounds');
 const { cloudinary } = require('../cloudinary');
 const maptilerClient = require("@maptiler/client");
+const dayjs = require('dayjs');
+const relativeTime = require('dayjs/plugin/relativeTime');
+dayjs.extend(relativeTime);
 maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index = async (req, res) => {
@@ -47,7 +50,7 @@ module.exports.createCampground = async (req, res) => {
     const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
     const campground = new Campground(req.body.campground);
     campground.geometry = geoData.features[0].geometry;
-    console.log(req.files);
+    // console.log(req.files);
     // const imgs = req.files.map(f => ({url : f.path, filename: f.filename}))
     // campground.images.push(...imgs);
     // Above or below any choose
@@ -69,7 +72,9 @@ module.exports.showCampground = async (req, res) => {
         req.flash('error', 'Cannot find that campground!')
         return res.redirect(`/campgrounds`);
     }
-    res.render('campgrounds/show', { findCampground });
+    const someDate = findCampground.createdAt;
+    const formattedDate = dayjs(someDate).fromNow();
+    res.render('campgrounds/show', { findCampground, formattedDate });
 }
 
 module.exports.RenderEditForm = async (req, res) => {
@@ -104,7 +109,14 @@ module.exports.UpdateCampground = async (req, res) => {
 
 module.exports.DeleteCampgrounds = async (req, res) => {
     const { id } = req.params;
+    const camp = await Campground.findById(id);
+    const filenamesToDelete = camp.images.map(image => image.filename);
     await Campground.findByIdAndDelete(id);
+    if (filenamesToDelete) {
+        for (let filename of filenamesToDelete) {
+            await cloudinary.uploader.destroy(filename);   // delete from cloudinary
+        }
+    } 
     req.flash('success', 'Successfully deleted campground');
     res.redirect('/campgrounds');
 }
