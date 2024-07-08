@@ -13,9 +13,9 @@
 <body class="d-flex text-center text-white bg-dark">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
-            <div>
-                <h3 class="float-md-left mb-0">CampgroundExplorer</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-right">
+            <div class="d-md-flex flex-md-column">
+                <h3 class="float-md-left mb-0" style="text-align: center;">CampgroundExplorer</h3>
+                <nav class="nav nav-masthead justify-content-center d-flex flex-md-row float-md-right">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="/campgrounds">Campgrounds</a>
                     <% if(!activeUser) { %>
@@ -27,16 +27,16 @@
                 </nav>
             </div>
         </header>
-        <main class="px-3">
-            <h1>CampgroundExplorer</h1>
-            <p class="lead"> Welcome to CampgroundExplorer! <br> Jump right in and explore our many campgrounds. <br>
+        <main class="px-3 d-flex flex-column justify-content-center align-items-center" >
+            <h1 style="text-align: center;">CampgroundExplorer</h1>
+            <p class="lead" style="text-align: center;"> Welcome to CampgroundExplorer! Jump right in and explore our many campgrounds.
                 Feel free to share some of your own and comment on others!</p>
             <a href="/campgrounds" class="btn btn-lg btn-secondary font-weight-bold border-white bg-white">View
                 Campgrounds</a>
         </main>
 
         <footer class="mt-auto text-white-50">
-            <p>&copy; 2020 </p>
+            <p>&copy; 2024 </p>
         </footer>
 
 

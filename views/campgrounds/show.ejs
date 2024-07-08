@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/stylesheets/stars.css">
 
 <div class="row">
-    <div class="col-sm-12 col-md-6 col-6">
+    <div class="col-12 col-md-6">
         <div class="card">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -55,14 +55,9 @@
             </div>
         </div>
     </div>
-    <% if (!activeUser) { %>
-        <div class="col-md-6 col-lg-6">
-            <div id='map'></div>
-        </div>
-    <% } %>
-    <% if (activeUser) { %>
-        <div class="col-6">
-            <div id='map'></div>
+    <div class="col-12 col-md-6">
+        <div id='map'></div>
+        <% if (activeUser) { %>
             <h2>Leave A Review</h2>
             <form id="submitReviewForm" action="/campgrounds/<%= findCampground._id %>/reviews" method="post" class="mb-3 needs-validation" novalidate>
                 <div>
@@ -86,22 +81,22 @@
                 </div>
                 <button class="btn btn-success">Submit</button>
             </form>
-            <% for (let review of findCampground.reviews) { %>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h4 class="card-subtitle mb-2 text-muted"><%= review.author.username %></h4>
-                        <p class="starability-result" data-rating="<%= review.rating %>">Rated: <%= review.rating %> stars</p>
-                        <p class="card-test">Review : <%= review.body %></p>
-                        <% if (activeUser && review.author.equals(activeUser._id)) { %>
-                            <form id="deleteReviewForm-<%= review._id %>" action="/campgrounds/<%= findCampground._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
-                                <button class="btn btn-sm btn-danger">Delete</button>
-                            </form>
-                        <% } %>
-                    </div>
+        <% } %>
+        <% for (let review of findCampground.reviews) { %>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h4 class="card-subtitle mb-2 text-muted"><%= review.author.username %></h4>
+                    <p class="starability-result" data-rating="<%= review.rating %>">Rated: <%= review.rating %> stars</p>
+                    <p class="card-test">Review : <%= review.body %></p>
+                    <% if (activeUser && review.author.equals(activeUser._id)) { %>
+                        <form id="deleteReviewForm-<%= review._id %>" action="/campgrounds/<%= findCampground._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
-            <% } %>
-        </div>
-    <% } %>
+            </div>
+        <% } %>
+    </div>
 </div>
 <a href="/campgrounds">All Campgrounds</a>
 
